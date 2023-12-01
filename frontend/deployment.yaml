@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+  labels:
+    version: "1"
+spec:
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      # imagePullSecrets:
+      # - name: harbor-secret
+      containers:
+        # - image: harbor.aolda.net/racoon/web-server
+        - image: dlckswn334/gcd-client # <- your image repository
+          name: client
+          ports:
+            - containerPort: 80
+          env:
+            - name: APP_ENDPOINT #  <- your backend server endpoint
+              value: racoon-server.racoon.svc.cluster.local:1323 

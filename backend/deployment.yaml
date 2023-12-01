@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcd-server
+  labels:
+    version: "1"
+spec:
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: gcd-server
+  template:
+    metadata:
+      labels:
+        app: gcd-server
+    spec:
+      # imagePullSecrets:
+      # - name: harbor-secret
+      containers:
+        # - image: harbor.aolda.net/racoon/api-server
+        - image: dlckswn334/gcd-server
+          name: gcd-server
+          ports:
+            - containerPort: 1323
+          # env:
+          #   - name: DB_HOST 
+          #     value: 172.16.18.54 <- config to your database IP
+          #   - name: DB_PORT
+          #     value: "5432"
+          #   - name: DB_USER
+          #     value: admin
+          #   - name: DB_PASSWORD
+          #     value: 1234
+          #   - name: DB_NAME
+          #     value: database
